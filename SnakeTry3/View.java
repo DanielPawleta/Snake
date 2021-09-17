@@ -79,7 +79,9 @@ public class View extends JPanel {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                drawTile(g, matrix[x][y], x, y); //iterujemy po tablicy width x height i rysujemy kazda komorke z tablicy
+                drawTile(g, matrix[y][x], x, y); //iterujemy po tablicy width x height i rysujemy kazda komorke z tablicy
+                //drawTile(g, matrix[x][y], x, y); //iterujemy po tablicy width x height i rysujemy kazda komorke z tablicy
+                // chyba powinno byc [x][y] zeby dalo sie robic prostokatne pola
             }
         }
     }

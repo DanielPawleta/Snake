@@ -49,7 +49,7 @@ public class Main {
         keyboardObserver.setContainer(frame);
         keyboardObserver.run();
 
-        createGame(17,12);
+        createGame(20,20);
         frame.getCenterPanel().add(game.getView(),"GamePanel");
 
         cardLayout.show(frame.getCenterPanel(),"GamePanel");
