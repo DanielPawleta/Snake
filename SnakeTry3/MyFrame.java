@@ -14,7 +14,7 @@ public class MyFrame extends JFrame implements ActionListener {
     private JButton returnButton;
     private JButton pauseButton;
     private JButton saveBnutton;
-    private boolean areButtonsVisible=false;
+    private boolean areButtonsVisible=true;
 
     private JPanel leftPanel ;
     private JPanel rightPanel;
@@ -40,6 +40,7 @@ public class MyFrame extends JFrame implements ActionListener {
     private void initializePanels(){
         upPanel = new JPanel();
         downPanel = new JPanel();
+        initializeDownPanel();
         leftPanel = new JPanel();
         rightPanel = new JPanel();
         centerPanel = new JPanel();
@@ -60,7 +61,6 @@ public class MyFrame extends JFrame implements ActionListener {
         this.add(leftPanel, BorderLayout.WEST);
         this.add(rightPanel, BorderLayout.EAST);
         this.add(centerPanel,BorderLayout.CENTER);
-        initializeDownPanel();
     }
 
     public void initializeDownPanel() {

@@ -59,7 +59,7 @@ public class Main {
         frame.getCenterPanel().add(game.getView(),"GamePanel");
 
         if (!downPanelInitialized){
-            frame.initializeDownPanel();
+            //frame.initializeDownPanel();
             downPanelInitialized=true;
         }
 
@@ -101,6 +101,9 @@ public class Main {
             isPaused = true;
             game.pause();
         }
-        else game.resume();
+        else {
+            isPaused=false;
+            game.resume();
+        }
     }
 }

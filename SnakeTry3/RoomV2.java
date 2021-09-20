@@ -85,8 +85,6 @@ public class RoomV2 implements ActionListener {
 
 
 
-
-
     public void print() {
         main.getFrame().getCenterPanel().repaint();
     }

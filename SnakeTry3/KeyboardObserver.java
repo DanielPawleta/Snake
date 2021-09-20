@@ -20,6 +20,7 @@ public class KeyboardObserver implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("klawisz");
         if (active) keyEvents.add(e);
     }
 
