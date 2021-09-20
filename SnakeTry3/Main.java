@@ -11,6 +11,9 @@ public class Main {
     private AboutPanel aboutPanel; //JPanel
     private RoomV2 game;
     private KeyboardObserver keyboardObserver;
+    private boolean isPaused;
+    private boolean downPanelInitialized = false;
+
 
     public KeyboardObserver getKeyboardObserver() {
         return keyboardObserver;
@@ -30,6 +33,7 @@ public class Main {
     }
 
 
+
     public void run() {
         frame = new MyFrame(); //main frame with JPanels to switch between
         cardLayout = new CardLayout();
@@ -45,30 +49,43 @@ public class Main {
     }
 
     public void switchToGamePanel() {
+
+
         keyboardObserver = new KeyboardObserver();
         keyboardObserver.setContainer(frame);
         keyboardObserver.run();
 
-        createGame(20,20);
+        createGame(25,20);
         frame.getCenterPanel().add(game.getView(),"GamePanel");
 
+        if (!downPanelInitialized){
+            frame.initializeDownPanel();
+            downPanelInitialized=true;
+        }
+
+        frame.setMain(this);
+
         cardLayout.show(frame.getCenterPanel(),"GamePanel");
+        frame.ableDownButtonsVisibility();
+
         frame.pack();
         game.run();
-
     }
 
     public void createGame(int width, int height){
-        Mouse mouse = new Mouse(5,5);
-        Snake snake = new Snake(10,10, mouse);
-        game = new RoomV2(width,height, snake, mouse, this, keyboardObserver);
+        //Mouse mouse = new Mouse(5,5);
+        Snake snake = new Snake(10,10);
+        game = new RoomV2(width,height, snake, this, keyboardObserver);
         this.setView(game.getView());
         snake.setGame(game);
 
         game.getSnake().setDirection(SnakeDirection.DOWN);
     }
 
+
+
     public void switchToButtonPanel() {
+        frame.disableDownButtonsVisibility();
         frame.setSize(new Dimension(500,400));
         cardLayout.show(frame.getCenterPanel(),"ButtonPanel");
     }
@@ -77,5 +94,13 @@ public class Main {
         aboutPanel = new AboutPanel(this);
         frame.getCenterPanel().add(aboutPanel,"AboutPanel");
         cardLayout.show(frame.getCenterPanel(),"AboutPanel");
+    }
+
+    public void pause(){
+        if (!isPaused) {
+            isPaused = true;
+            game.pause();
+        }
+        else game.resume();
     }
 }

@@ -10,15 +10,19 @@ public class Snake {
     private Mouse mouse;
     private RoomV2 game;
 
+    public Mouse getMouse() {
+        return mouse;
+    }
+
     public void setGame(RoomV2 game) {
         this.game = game;
     }
 
 
-    public Snake(int x, int y, Mouse mouse) {
+    public Snake(int x, int y) {
         sections = new ArrayList<>();
         sections.add(new SnakeSection(x, y));
-        this.mouse = mouse;
+        //this.mouse = mouse;
         isAlive = true;
     }
 
@@ -71,7 +75,8 @@ public class Snake {
         checkBody(head);
         if (!isAlive) return;
 
-        //Mouse mouse = RoomV2.game.getMouse();
+        mouse = game.getMouse();
+
         if (head.getX() == mouse.getX() && head.getY() == mouse.getY()) // Ate it
         {
             sections.add(0, head);

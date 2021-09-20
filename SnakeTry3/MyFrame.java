@@ -4,16 +4,29 @@ package SnakeTry3;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MyFrame extends JFrame {
+public class MyFrame extends JFrame implements ActionListener {
     private JPanel upPanel;
     private JPanel downPanel;
+
+    private JButton returnButton;
+    private JButton pauseButton;
+    private JButton saveBnutton;
+    private boolean areButtonsVisible=false;
+
     private JPanel leftPanel ;
     private JPanel rightPanel;
     private JPanel centerPanel;
     private final int PANEL_SIZE =30;
     private final int GAP_IN_BORDER_LAYOUT_SIZE =10;
 
+    private Main main;
+
+    public void setMain(Main main) {
+        this.main = main;
+    }
 
     public MyFrame() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -47,17 +60,53 @@ public class MyFrame extends JFrame {
         this.add(leftPanel, BorderLayout.WEST);
         this.add(rightPanel, BorderLayout.EAST);
         this.add(centerPanel,BorderLayout.CENTER);
+        initializeDownPanel();
+    }
+
+    public void initializeDownPanel() {
+        downPanel.setLayout(new GridLayout(1,3,50,10) );
+
+        returnButton = new JButton("Return");
+        pauseButton = new JButton("Pause");
+        saveBnutton = new JButton("Save game");
+
+        returnButton.addActionListener(this);
+        pauseButton.addActionListener(this);
+        saveBnutton.addActionListener(this);
+
+        downPanel.add(returnButton);
+        downPanel.add(pauseButton);
+        downPanel.add(saveBnutton);
+
+        returnButton.setVisible(false);
+        pauseButton.setVisible(false);
+        saveBnutton.setVisible(false);
+    }
+
+    public void ableDownButtonsVisibility(){
+        returnButton.setVisible(true);
+        pauseButton.setVisible(true);
+        saveBnutton.setVisible(true);
+    }
+
+    public void disableDownButtonsVisibility(){
+            returnButton.setVisible(false);
+            pauseButton.setVisible(false);
+            saveBnutton.setVisible(false);
     }
 
     public JPanel getCenterPanel() {
         return centerPanel;
     }
 
-    public int getPANEL_SIZE() {
-        return PANEL_SIZE;
-    }
 
-    public int getGAP_IN_BORDER_LAYOUT_SIZE() {
-        return GAP_IN_BORDER_LAYOUT_SIZE;
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource()==returnButton){
+
+        }
+        if (e.getSource()==pauseButton){
+            main.pause();
+        }
     }
 }

@@ -17,13 +17,17 @@ public class RoomV2 implements ActionListener {
     private Main main;
     private KeyboardObserver keyboardObserver;
     private Timer timer;
+    private boolean isPaused;
 
-    public RoomV2(int width, int height, Snake snake, Mouse mouse, Main main, KeyboardObserver keyboardObserver) {
+
+    public RoomV2(int width, int height, Snake snake, Main main, KeyboardObserver keyboardObserver) {
         this.width = width;
         this.height = height;
         this.snake = snake;
-        this.mouse = mouse;
-        this.view = new View(width, height, snake, mouse);
+        //this.mouse = mouse;
+        this.view = new View(width, height, snake);
+        createMouse();
+
         this.main = main;
         this.keyboardObserver = keyboardObserver;
     }
@@ -67,7 +71,21 @@ public class RoomV2 implements ActionListener {
     public void run() {
         timer = new Timer(500,this);
         timer.start();
+
     }
+
+    public  void pause(){
+        isPaused=true;
+    }
+
+
+    public void resume() {
+        isPaused=false;
+    }
+
+
+
+
 
     public void print() {
         main.getFrame().getCenterPanel().repaint();
@@ -81,7 +99,7 @@ public class RoomV2 implements ActionListener {
         int x = (int) (Math.random() * width);
         int y = (int) (Math.random() * height);
         mouse = new Mouse(x, y);
-
+        view.setMouse(mouse);
     }
 
     //public static void main(String[] args) {
@@ -107,7 +125,7 @@ public class RoomV2 implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        takeStep();
+        if (!isPaused) takeStep();
     }
 
     public void takeStep(){
@@ -122,7 +140,6 @@ public class RoomV2 implements ActionListener {
 
             if (event.getKeyChar() == 'q') return;
             if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-                System.out.println("left");
                 snake.setDirection(SnakeDirection.LEFT);
             }
             else if (event.getKeyCode() == KeyEvent.VK_RIGHT)
@@ -135,4 +152,6 @@ public class RoomV2 implements ActionListener {
         snake.move();
         print();
     }
+
+
 }

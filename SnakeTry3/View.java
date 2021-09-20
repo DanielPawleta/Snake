@@ -14,11 +14,11 @@ public class View extends JPanel {
     private Snake snake;
     private Mouse mouse;
 
-    public View(int width, int height, Snake snake, Mouse mouse) {
+    public View(int width, int height, Snake snake) {
         this.width=width;
         this.height=height;
         this.snake = snake;
-        this.mouse = mouse;
+        //this.mouse = mouse;
         this.setPreferredSize(getDimension());
     }
 
@@ -50,20 +50,30 @@ public class View extends JPanel {
         }
     }
 
+    public void setMouse(Mouse mouse) {
+        this.mouse = mouse;
+    }
+
     @Override //kazde wywolanie metody paint "resetuje" pole gry
     public void paint(Graphics g) {  //huj wie co to za Graphics g
         super.paint(g); //nie wiem czy potrzebne
         g.setColor(BG_COLOR); //kolor tła
         g.fillRect(0, 0, this.getSize().width, this.getSize().height); //rysuje tlo jako prostokat od (0,0) do (width,height)
-
-        ArrayList<SnakeSection> sections = snake.getSections();
         int[][] matrix = new int[width][height];
 
+        //Mouse mouse = snake.getMouse();
+        matrix[mouse.getX()][mouse.getY()] = 3;
+
+        ArrayList<SnakeSection> sections = snake.getSections();
+
         for (SnakeSection snakeSection : sections) {
-            matrix[snakeSection.getY()][snakeSection.getX()] = 1;
+            matrix[snakeSection.getX()][snakeSection.getY()] = 1;
         }
-        matrix[snake.getY()][snake.getX()] = snake.isAlive() ? 2 : 4; //snake's head color
-        matrix[mouse.getY()][mouse.getX()] = 3;
+        matrix[snake.getX()][snake.getY()] = snake.isAlive() ? 2 : 4; //snake's head color
+
+
+
+
         //mamy tablice wypelniona liczbami:
         // 0 - puste pole
         // 1 - cialo weza
@@ -71,15 +81,13 @@ public class View extends JPanel {
         // 3 - mouse
         // 4 - dead snake's head
 
-
-        printMatrix(matrix);
-
-        System.out.println();
-        System.out.println();
+        //printMatrix(matrix);
+        //System.out.println();
+        //System.out.println();
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                drawTile(g, matrix[y][x], x, y); //iterujemy po tablicy width x height i rysujemy kazda komorke z tablicy
+                drawTile(g, matrix[x][y], x, y); //iterujemy po tablicy width x height i rysujemy kazda komorke z tablicy
                 //drawTile(g, matrix[x][y], x, y); //iterujemy po tablicy width x height i rysujemy kazda komorke z tablicy
                 // chyba powinno byc [x][y] zeby dalo sie robic prostokatne pola
             }
