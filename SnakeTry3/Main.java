@@ -13,7 +13,24 @@ public class Main {
     private KeyboardObserver keyboardObserver;
     private boolean isPaused;
     private boolean downPanelInitialized = false;
+    private int speed=0;
+    private int score=0;
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     public KeyboardObserver getKeyboardObserver() {
         return keyboardObserver;
@@ -40,6 +57,7 @@ public class Main {
         frame.getCenterPanel().setLayout(cardLayout);
 
         buttonPanel = new ButtonPanel(this);
+        buttonPanel.setFocusable(false);
         frame.getCenterPanel().add(buttonPanel,"ButtonPanel");
 
         frame.setFocusable(true);
@@ -49,11 +67,13 @@ public class Main {
     }
 
     public void switchToGamePanel() {
+        if (keyboardObserver==null) {
+            keyboardObserver = new KeyboardObserver();
+            keyboardObserver.setContainer(frame);
+            keyboardObserver.run();
+        }
 
-
-        keyboardObserver = new KeyboardObserver();
-        keyboardObserver.setContainer(frame);
-        keyboardObserver.run();
+        keyboardObserver.turnOn();
 
         createGame(25,20);
         frame.getCenterPanel().add(game.getView(),"GamePanel");
@@ -66,7 +86,8 @@ public class Main {
         frame.setMain(this);
 
         cardLayout.show(frame.getCenterPanel(),"GamePanel");
-        frame.ableDownButtonsVisibility();
+        frame.ableUpAndDownButtonsVisibility();
+
 
         frame.pack();
         game.run();
@@ -85,7 +106,7 @@ public class Main {
 
 
     public void switchToButtonPanel() {
-        frame.disableDownButtonsVisibility();
+        frame.disableUpAndDownButtonsVisibility();
         frame.setSize(new Dimension(500,400));
         cardLayout.show(frame.getCenterPanel(),"ButtonPanel");
     }

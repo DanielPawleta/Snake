@@ -71,22 +71,24 @@ public class RoomV2 implements ActionListener {
     public void run() {
         timer = new Timer(500,this);
         timer.start();
-
     }
 
     public  void pause(){
         isPaused=true;
+        keyboardObserver.turnOff();
     }
 
 
     public void resume() {
         isPaused=false;
+        keyboardObserver.turnOn();
     }
 
 
 
     public void print() {
         main.getFrame().getCenterPanel().repaint();
+        main.getFrame().getUpPanel().repaint();
     }
 
     public void eatMouse() {
@@ -109,16 +111,12 @@ public class RoomV2 implements ActionListener {
         //game.run();
     //}
 
-    public void sleep() {
-        try {
-            int level = snake.getSections().size();
-            int delayStep = 20;
-            int initialDelay = 520;
-            int delay = level < 15 ? (initialDelay - delayStep * level) : 200;
-            Thread.sleep(delay);
-            System.out.println(Thread.currentThread().getName() + " is sleeping");
-        } catch (InterruptedException e) {
+    public void changeDelay() {
+        int delayStep = 20;
+        if (timer.getDelay()>200){
+            timer.setDelay(timer.getDelay()-delayStep);
         }
+        main.setSpeed((500-timer.getDelay())/20);
     }
 
     @Override
@@ -133,7 +131,10 @@ public class RoomV2 implements ActionListener {
             main.switchToButtonPanel();
             return;
         }
+        //System.out.println("take step");
+        //System.out.println("keyboard observer number: " + keyboardObserver.toString());
         if (keyboardObserver.hasKeyEvents()) {
+            //System.out.println("keyboard has some events");
             KeyEvent event = keyboardObserver.getEventFromTop();
 
             if (event.getKeyChar() == 'q') return;
@@ -148,8 +149,11 @@ public class RoomV2 implements ActionListener {
                 snake.setDirection(SnakeDirection.DOWN);
         }
         snake.move();
+        System.out.println(main.getSpeed());
+        //changeDelay();
         print();
     }
+
 
 
 }

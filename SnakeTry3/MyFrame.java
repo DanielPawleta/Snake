@@ -9,10 +9,13 @@ import java.awt.event.ActionListener;
 
 public class MyFrame extends JFrame implements ActionListener {
     private JPanel upPanel;
-    private JPanel downPanel;
+    private JLabel speedLabel;
+    private JLabel scoreLabel;
 
+    private JPanel downPanel;
     private JButton returnButton;
     private JButton pauseButton;
+    private final String PAUSE_BUTTON_TEXT = "Pause";
     private JButton saveBnutton;
     private boolean areButtonsVisible=true;
 
@@ -28,6 +31,10 @@ public class MyFrame extends JFrame implements ActionListener {
         this.main = main;
     }
 
+    public JPanel getUpPanel() {
+        return upPanel;
+    }
+
     public MyFrame() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Snake by Daniel");
@@ -35,10 +42,12 @@ public class MyFrame extends JFrame implements ActionListener {
         this.getContentPane().setBackground(Color.BLACK);
         initializePanels();
         this.setVisible(true);
+
     }
 
     private void initializePanels(){
         upPanel = new JPanel();
+        initializeUpPanel();
         downPanel = new JPanel();
         initializeDownPanel();
         leftPanel = new JPanel();
@@ -63,11 +72,38 @@ public class MyFrame extends JFrame implements ActionListener {
         this.add(centerPanel,BorderLayout.CENTER);
     }
 
+
+
+    private void initializeUpPanel() {
+        int speed=0;
+        int score=0;
+        if (main!=null) speed = main.getSpeed();
+        if (main!=null) score = main.getScore();
+
+
+        upPanel.setLayout(new GridLayout(1,2,10,5));
+
+        speedLabel = new JLabel("Speed: " + speed);
+        speedLabel.setFont(new Font("",Font.PLAIN,20));
+        speedLabel.setForeground(Color.MAGENTA);
+        speedLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        speedLabel.setVisible(false);
+
+        scoreLabel = new JLabel("Score: " + score);
+        scoreLabel.setFont(new Font("",Font.PLAIN,20));
+        scoreLabel.setForeground(Color.MAGENTA);
+        scoreLabel.setVisible(false);
+        scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        upPanel.add(speedLabel);
+        upPanel.add(scoreLabel);
+    }
+
     public void initializeDownPanel() {
         downPanel.setLayout(new GridLayout(1,3,50,10) );
 
         returnButton = new JButton("Return");
-        pauseButton = new JButton("Pause");
+        pauseButton = new JButton(PAUSE_BUTTON_TEXT);
         saveBnutton = new JButton("Save game");
 
         returnButton.addActionListener(this);
@@ -78,21 +114,29 @@ public class MyFrame extends JFrame implements ActionListener {
         downPanel.add(pauseButton);
         downPanel.add(saveBnutton);
 
+        returnButton.setFocusable(false);
+        pauseButton.setFocusable(false);
+        saveBnutton.setFocusable(false);
+
         returnButton.setVisible(false);
         pauseButton.setVisible(false);
         saveBnutton.setVisible(false);
     }
 
-    public void ableDownButtonsVisibility(){
+    public void ableUpAndDownButtonsVisibility(){
+        speedLabel.setVisible(true);
+        scoreLabel.setVisible(true);
         returnButton.setVisible(true);
         pauseButton.setVisible(true);
         saveBnutton.setVisible(true);
     }
 
-    public void disableDownButtonsVisibility(){
-            returnButton.setVisible(false);
-            pauseButton.setVisible(false);
-            saveBnutton.setVisible(false);
+    public void disableUpAndDownButtonsVisibility(){
+        speedLabel.setVisible(false);
+        scoreLabel.setVisible(false);
+        returnButton.setVisible(false);
+        pauseButton.setVisible(false);
+        saveBnutton.setVisible(false);
     }
 
     public JPanel getCenterPanel() {
@@ -106,7 +150,13 @@ public class MyFrame extends JFrame implements ActionListener {
 
         }
         if (e.getSource()==pauseButton){
+            changePauseButtonText();
             main.pause();
         }
+    }
+
+    private void changePauseButtonText(){
+        if (pauseButton.getText().equals(PAUSE_BUTTON_TEXT)) pauseButton.setText("Resume");
+        else pauseButton.setText(PAUSE_BUTTON_TEXT);
     }
 }

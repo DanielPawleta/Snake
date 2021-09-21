@@ -41,6 +41,11 @@ public class ButtonPanel extends JPanel implements ActionListener {
         aboutButton.addActionListener(this);
         exitButton.addActionListener(this);
 
+        newGameButton.setFocusable(false);
+        loadGameButton.setFocusable(false);
+        aboutButton.setFocusable(false);
+        exitButton.setFocusable(false);
+
         this.add(Box.createVerticalGlue());
         this.add(newGameButton);
         this.add(Box.createVerticalGlue());

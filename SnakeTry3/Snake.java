@@ -81,6 +81,7 @@ public class Snake {
         {
             sections.add(0, head);
             game.eatMouse();
+            game.changeDelay();
         } else
         {
             sections.add(0, head);
