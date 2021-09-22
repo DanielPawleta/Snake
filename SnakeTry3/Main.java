@@ -79,7 +79,6 @@ public class Main {
         frame.getCenterPanel().add(game.getView(),"GamePanel");
 
         if (!downPanelInitialized){
-            //frame.initializeDownPanel();
             downPanelInitialized=true;
         }
 
@@ -87,7 +86,6 @@ public class Main {
 
         cardLayout.show(frame.getCenterPanel(),"GamePanel");
         frame.ableUpAndDownButtonsVisibility();
-
 
         frame.pack();
         game.run();
@@ -106,6 +104,7 @@ public class Main {
 
 
     public void switchToButtonPanel() {
+        zeroCounters();
         frame.disableUpAndDownButtonsVisibility();
         frame.setSize(new Dimension(500,400));
         cardLayout.show(frame.getCenterPanel(),"ButtonPanel");
@@ -126,5 +125,19 @@ public class Main {
             isPaused=false;
             game.resume();
         }
+    }
+
+    public void resume(){
+        isPaused=false;
+        game.resume();
+    }
+
+    private void zeroCounters() {
+        speed = 0;
+        score = 0;
+    }
+
+    public void killSnake() {
+        game.getSnake().kill();
     }
 }

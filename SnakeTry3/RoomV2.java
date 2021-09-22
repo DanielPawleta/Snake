@@ -84,8 +84,6 @@ public class RoomV2 implements ActionListener {
         keyboardObserver.turnOn();
     }
 
-
-
     public void print() {
         main.getFrame().getCenterPanel().repaint();
         main.getFrame().getUpPanel().repaint();
@@ -102,21 +100,13 @@ public class RoomV2 implements ActionListener {
         view.setMouse(mouse);
     }
 
-    //public static void main(String[] args) {
-        //Snake snake = new Snake(10, 10);
-        //game = new RoomV2(25, 25 ,snake);
-        //game.createMouse();
-        //game.snake.setDirection(SnakeDirection.DOWN);
-
-        //game.run();
-    //}
-
     public void changeDelay() {
         int delayStep = 20;
         if (timer.getDelay()>200){
             timer.setDelay(timer.getDelay()-delayStep);
         }
         main.setSpeed((500-timer.getDelay())/20);
+        main.setScore(main.getScore()+snake.getSections().size()* main.getSpeed());
     }
 
     @Override
@@ -131,10 +121,8 @@ public class RoomV2 implements ActionListener {
             main.switchToButtonPanel();
             return;
         }
-        //System.out.println("take step");
-        //System.out.println("keyboard observer number: " + keyboardObserver.toString());
+
         if (keyboardObserver.hasKeyEvents()) {
-            //System.out.println("keyboard has some events");
             KeyEvent event = keyboardObserver.getEventFromTop();
 
             if (event.getKeyChar() == 'q') return;
@@ -149,11 +137,6 @@ public class RoomV2 implements ActionListener {
                 snake.setDirection(SnakeDirection.DOWN);
         }
         snake.move();
-        System.out.println(main.getSpeed());
-        //changeDelay();
         print();
     }
-
-
-
 }

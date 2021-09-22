@@ -89,7 +89,6 @@ public class Snake {
         }
     }
 
-
     private void checkBorders(SnakeSection head) {
         if ((head.getX() < 0 || head.getX() >= game.getWidth()) || head.getY() < 0 || head.getY() >= game.getHeight()) {
             isAlive = false;
@@ -100,5 +99,10 @@ public class Snake {
         if (sections.contains(head)) {
             isAlive = false;
         }
+    }
+
+
+    public void kill() {
+        isAlive=false;
     }
 }

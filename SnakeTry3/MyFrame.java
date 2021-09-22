@@ -8,7 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MyFrame extends JFrame implements ActionListener {
-    private JPanel upPanel;
+    //private JPanel upPanel;
+    private MyUpPanel upPanel;
     private JLabel speedLabel;
     private JLabel scoreLabel;
 
@@ -29,6 +30,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
     public void setMain(Main main) {
         this.main = main;
+        upPanel.setMain(main);
     }
 
     public JPanel getUpPanel() {
@@ -46,8 +48,8 @@ public class MyFrame extends JFrame implements ActionListener {
     }
 
     private void initializePanels(){
-        upPanel = new JPanel();
-        initializeUpPanel();
+        upPanel = new MyUpPanel();
+        //initializeUpPanel();
         downPanel = new JPanel();
         initializeDownPanel();
         leftPanel = new JPanel();
@@ -72,14 +74,11 @@ public class MyFrame extends JFrame implements ActionListener {
         this.add(centerPanel,BorderLayout.CENTER);
     }
 
-
-
     private void initializeUpPanel() {
         int speed=0;
         int score=0;
         if (main!=null) speed = main.getSpeed();
         if (main!=null) score = main.getScore();
-
 
         upPanel.setLayout(new GridLayout(1,2,10,5));
 
@@ -124,16 +123,16 @@ public class MyFrame extends JFrame implements ActionListener {
     }
 
     public void ableUpAndDownButtonsVisibility(){
-        speedLabel.setVisible(true);
-        scoreLabel.setVisible(true);
+        upPanel.ableUpPanelsVisibility();
+
         returnButton.setVisible(true);
         pauseButton.setVisible(true);
         saveBnutton.setVisible(true);
     }
 
     public void disableUpAndDownButtonsVisibility(){
-        speedLabel.setVisible(false);
-        scoreLabel.setVisible(false);
+        upPanel.disableUpPanelsVisibility();
+
         returnButton.setVisible(false);
         pauseButton.setVisible(false);
         saveBnutton.setVisible(false);
@@ -143,11 +142,13 @@ public class MyFrame extends JFrame implements ActionListener {
         return centerPanel;
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==returnButton){
-
+            main.resume();
+            resetPauseButtonText();
+            main.killSnake();
+            main.switchToButtonPanel();
         }
         if (e.getSource()==pauseButton){
             changePauseButtonText();
@@ -158,5 +159,9 @@ public class MyFrame extends JFrame implements ActionListener {
     private void changePauseButtonText(){
         if (pauseButton.getText().equals(PAUSE_BUTTON_TEXT)) pauseButton.setText("Resume");
         else pauseButton.setText(PAUSE_BUTTON_TEXT);
+    }
+
+    private void resetPauseButtonText(){
+        pauseButton.setText(PAUSE_BUTTON_TEXT);
     }
 }
