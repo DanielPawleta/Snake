@@ -9,6 +9,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
     private JLabel snakeLabel;
     private JButton newGameButton;
     private JButton loadGameButton;
+    private JButton highscoreButton;
     private JButton aboutButton;
     private JButton exitButton;
     private Main main;
@@ -28,21 +29,25 @@ public class ButtonPanel extends JPanel implements ActionListener {
     private void initializeButtons(){
         newGameButton = new JButton("New Game");
         loadGameButton =new JButton("Load Game");
+        highscoreButton =new JButton("Highscore");
         aboutButton =new JButton("About");
         exitButton =new JButton("Exit");
 
         newGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         loadGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        highscoreButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         aboutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         newGameButton.addActionListener(this);
         loadGameButton.addActionListener(this);
+        highscoreButton.addActionListener(this);
         aboutButton.addActionListener(this);
         exitButton.addActionListener(this);
 
         newGameButton.setFocusable(false);
         loadGameButton.setFocusable(false);
+        highscoreButton.setFocusable(false);
         aboutButton.setFocusable(false);
         exitButton.setFocusable(false);
 
@@ -50,6 +55,8 @@ public class ButtonPanel extends JPanel implements ActionListener {
         this.add(newGameButton);
         this.add(Box.createVerticalGlue());
         this.add(loadGameButton);
+        this.add(Box.createVerticalGlue());
+        this.add(highscoreButton);
         this.add(Box.createVerticalGlue());
         this.add(aboutButton);
         this.add(Box.createVerticalGlue());
@@ -61,7 +68,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==newGameButton) main.switchToGamePanel();
         if (e.getSource()==aboutButton) main.switchToAboutPanel();
-        if (e.getSource()==exitButton) System.exit(0);
+        if (e.getSource()==highscoreButton) main.switchToHighscorePanel();
         if (e.getSource()==exitButton) System.exit(0);
     }
 }

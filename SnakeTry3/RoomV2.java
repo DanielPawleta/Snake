@@ -125,7 +125,7 @@ public class RoomV2 implements ActionListener {
         if (keyboardObserver.hasKeyEvents()) {
             KeyEvent event = keyboardObserver.getEventFromTop();
 
-            if (event.getKeyChar() == 'q') return;
+            //if (event.getKeyChar() == 'q') return;
             if (event.getKeyCode() == KeyEvent.VK_LEFT) {
                 snake.setDirection(SnakeDirection.LEFT);
             }

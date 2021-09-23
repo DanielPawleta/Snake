@@ -10,7 +10,6 @@ public class KeyboardObserver implements KeyListener{
     private Queue<KeyEvent> keyEvents = new ArrayBlockingQueue<>(100);
     private Container container;
     private boolean active;
-    private int keyNumber=0;
 
     public void setContainer(Container container) {
         this.container = container;
@@ -21,13 +20,15 @@ public class KeyboardObserver implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        keyNumber++;
-        //System.out.println("klawisz " + keyNumber);
         if (active) keyEvents.add(e);
+        turnOff();  //turn off keyboard to prevent from reading
+                    // one long keypress as many single press
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        turnOn();
+    }
 
     public void run() {
         active=true;
@@ -39,12 +40,10 @@ public class KeyboardObserver implements KeyListener{
     }
 
     public KeyEvent getEventFromTop() {
-        //System.out.println("Key events poll");
         return keyEvents.poll();
     }
 
     public void turnOff(){
-        //System.out.println("keyboard turned off");
         active=false;
     }
 

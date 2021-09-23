@@ -9,6 +9,7 @@ public class Main {
     private CardLayout cardLayout;
     private ButtonPanel buttonPanel; //JPanel
     private AboutPanel aboutPanel; //JPanel
+    private HighscorePanel highscorePanel; //JPanel
     private RoomV2 game;
     private KeyboardObserver keyboardObserver;
     private boolean isPaused;
@@ -48,8 +49,6 @@ public class Main {
          Main main = new Main();
          main.run();
     }
-
-
 
     public void run() {
         frame = new MyFrame(); //main frame with JPanels to switch between
@@ -116,6 +115,12 @@ public class Main {
         cardLayout.show(frame.getCenterPanel(),"AboutPanel");
     }
 
+    public void switchToHighscorePanel() {
+        highscorePanel = new HighscorePanel(this);
+        frame.getCenterPanel().add(highscorePanel,"HighscorePanel");
+        cardLayout.show(frame.getCenterPanel(),"HighscorePanel");
+    }
+
     public void pause(){
         if (!isPaused) {
             isPaused = true;
@@ -140,4 +145,6 @@ public class Main {
     public void killSnake() {
         game.getSnake().kill();
     }
+
+
 }

@@ -14,6 +14,7 @@ public class AboutPanel extends JPanel implements ActionListener {
         this.main = main;
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
+
         descriptionLabel = new JLabel("Description Panel");
         descriptionLabel.setFont(new Font("Arial",Font.PLAIN,25));
         descriptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -29,7 +30,7 @@ public class AboutPanel extends JPanel implements ActionListener {
 
         this.add(Box.createVerticalGlue());
         this.add(okButton);
-        this.add(Box.createVerticalGlue());
+        this.add(Box.createRigidArea(new Dimension(0,20)));
     }
 
     @Override
