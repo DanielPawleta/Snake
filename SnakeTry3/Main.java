@@ -100,8 +100,6 @@ public class Main {
         game.getSnake().setDirection(SnakeDirection.DOWN);
     }
 
-
-
     public void switchToButtonPanel() {
         zeroCounters();
         frame.disableUpAndDownButtonsVisibility();
@@ -145,6 +143,4 @@ public class Main {
     public void killSnake() {
         game.getSnake().kill();
     }
-
-
 }

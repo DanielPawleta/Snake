@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectStreamException;
+import java.io.StreamCorruptedException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class HighscorePanel extends JPanel implements ActionListener {
     private JLabel highscoreLabel;
@@ -42,24 +46,42 @@ public class HighscorePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == okButton) main.switchToButtonPanel();
+        if (e.getSource() == okButton) {
+            highscores.saveScoresToFile();
+            main.switchToButtonPanel();
+        }
     }
 
-    private void showHighscoreList(){
-        highscores = new Highscores();
-        ArrayList<Highscores.Highscore> list = highscores.getHighscoreList();
+    private void showHighscoreList() {
+        try {
+            highscores = new Highscores();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this,
+                    "File is broken. Resetting highscore list.");
+            highscores = new Highscores(true);
+        } catch (ClassNotFoundException e) {
+            System.out.println("class not found");
+            highscores = new Highscores(true);
+        }
+        ArrayList<Highscore> list = highscores.getHighscoreList();
+        Collections.sort(list);
+        Collections.reverse(list);
 
 
+        for (Highscore highscore : list){
 
+            System.out.println(highscore.name + "   " + highscore.score);
+        }
 
+        showBest5Scores();
 
     }
 
+    private void showBest5Scores() {
+        for (int i=0;i<5;i++){
 
-
-
-
-
+        }
+    }
 
 
 }
