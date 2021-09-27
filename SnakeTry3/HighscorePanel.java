@@ -1,6 +1,7 @@
 package SnakeTry3;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,11 +13,6 @@ import java.util.Collections;
 
 public class HighscorePanel extends JPanel implements ActionListener {
     private JLabel highscoreLabel;
-    private JLabel firstLabel;
-    private JLabel secondLabel;
-    private JLabel thirdLabel;
-    private JLabel fourthLabel;
-    private JLabel fifthLabel;
     private JButton okButton;
     private Highscores highscores;
     private Main main;
@@ -29,6 +25,7 @@ public class HighscorePanel extends JPanel implements ActionListener {
         highscoreLabel.setFont(new Font("Arial",Font.PLAIN,25));
         highscoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(highscoreLabel);
+        this.add(Box.createVerticalGlue());
 
         showHighscoreList();
         initializeButtons();
@@ -57,7 +54,7 @@ public class HighscorePanel extends JPanel implements ActionListener {
             highscores = new Highscores();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
-                    "File is broken. Resetting highscore list.");
+                    "File is missing or broken. Resetting highscore list.");
             highscores = new Highscores(true);
         } catch (ClassNotFoundException e) {
             System.out.println("class not found");
@@ -67,21 +64,24 @@ public class HighscorePanel extends JPanel implements ActionListener {
         Collections.sort(list);
         Collections.reverse(list);
 
-
-        for (Highscore highscore : list){
-
-            System.out.println(highscore.name + "   " + highscore.score);
-        }
-
         showBest5Scores();
-
     }
 
     private void showBest5Scores() {
+        //Border border = BorderFactory.createLineBorder(Color.black);
+        JPanel scoresPanel = new JPanel(new GridLayout(5,2));
+
         for (int i=0;i<5;i++){
+            String name = highscores.getHighscoreList().get(i).name;
+            int score = highscores.getHighscoreList().get(i).score;
 
+            JLabel nameLabel = new JLabel(name.concat("..."),SwingConstants.RIGHT);
+            //nameLabel.setBorder(border);
+            scoresPanel.add(nameLabel);
+            JLabel scoreLabel = new JLabel("..." + score);
+            //scoreLabel.setBorder(border);
+            scoresPanel.add(scoreLabel);
         }
+        this.add(scoresPanel);
     }
-
-
 }

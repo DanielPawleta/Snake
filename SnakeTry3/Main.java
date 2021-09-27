@@ -1,6 +1,9 @@
 package SnakeTry3;
 
 
+import swingTest.JTextFieldTest;
+
+import javax.swing.*;
 import java.awt.*;
 
 public class Main {
@@ -14,6 +17,8 @@ public class Main {
     private KeyboardObserver keyboardObserver;
     private boolean isPaused;
     private boolean downPanelInitialized = false;
+    private int width=20;
+    private int height=20;
     private int speed=0;
     private int score=0;
 
@@ -65,6 +70,44 @@ public class Main {
         frame.setVisible(true);
     }
 
+    private boolean getGameScreenSize(){
+        JTextField widthFiled = new JTextField(5);
+        JTextField heightFiled = new JTextField(5);
+
+        while (true) {
+            JPanel jPanel = new JPanel();
+            jPanel.add(new JLabel("Width: "));
+            jPanel.add(widthFiled);
+            jPanel.add(Box.createHorizontalStrut(20));
+            jPanel.add(new JLabel("Height: "));
+            jPanel.add(heightFiled);
+
+            int result = JOptionPane.showConfirmDialog(buttonPanel,jPanel,"Please enter game screen size", JOptionPane.OK_CANCEL_OPTION);
+
+            if (result== JOptionPane.CANCEL_OPTION) {
+                switchToButtonPanel();
+                return false;
+            }
+            else {
+                try {
+                    width = Integer.parseInt(widthFiled.getText());
+                    height = Integer.parseInt(heightFiled.getText());
+                    if (width>50 || height>50) throw new SizeTooBigException();
+                    if (width<15 || height<15) throw new SizeTooSmallException();
+                    break;
+                }
+                catch (NumberFormatException e){
+                    JOptionPane.showMessageDialog(jPanel,"Please enter only numbers","Warning", JOptionPane.WARNING_MESSAGE);
+                } catch (SizeTooBigException e) {
+                    JOptionPane.showMessageDialog(jPanel,"Size is too big, please enter value equal or less than 50!","Warning", JOptionPane.WARNING_MESSAGE);
+                } catch (SizeTooSmallException e) {
+                    JOptionPane.showMessageDialog(jPanel,"Size is too small, please enter value equal or greater than 15!","Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+        return true;
+    }
+
     public void switchToGamePanel() {
         if (keyboardObserver==null) {
             keyboardObserver = new KeyboardObserver();
@@ -74,7 +117,9 @@ public class Main {
 
         keyboardObserver.turnOn();
 
-        createGame(25,20);
+        if (!getGameScreenSize()) return;
+
+        createGame(width,height);
         frame.getCenterPanel().add(game.getView(),"GamePanel");
 
         if (!downPanelInitialized){
