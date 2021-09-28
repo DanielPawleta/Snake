@@ -118,6 +118,7 @@ public class RoomV2 implements ActionListener {
         if(!snake.isAlive()) {
             timer.stop();
             keyboardObserver.turnOff();
+            main.showScore();
             main.switchToButtonPanel();
             return;
         }

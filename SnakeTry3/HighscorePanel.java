@@ -16,8 +16,9 @@ public class HighscorePanel extends JPanel implements ActionListener {
     private JButton okButton;
     private Highscores highscores;
     private Main main;
+    private static HighscorePanel highscorePanel;
 
-    public HighscorePanel(Main main) {
+    private HighscorePanel(Main main) {
         this.main = main;
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
@@ -30,6 +31,14 @@ public class HighscorePanel extends JPanel implements ActionListener {
         showHighscoreList();
         initializeButtons();
     }
+
+    public static HighscorePanel getHighscorePanelInstance(Main main){
+        if (highscorePanel==null){
+            highscorePanel = new HighscorePanel(main);
+        }
+        return highscorePanel;
+    }
+
 
     private void initializeButtons(){
         okButton = new JButton("OK");
@@ -51,7 +60,10 @@ public class HighscorePanel extends JPanel implements ActionListener {
 
     private void showHighscoreList() {
         try {
-            highscores = new Highscores();
+            if (highscores==null) {
+                highscores = new Highscores();
+            }
+
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
                     "File is missing or broken. Resetting highscore list.");

@@ -16,7 +16,7 @@ public class Main {
     private RoomV2 game;
     private KeyboardObserver keyboardObserver;
     private boolean isPaused;
-    private boolean downPanelInitialized = false;
+    //private boolean downPanelInitialized = false;
     private int width=20;
     private int height=20;
     private int speed=0;
@@ -71,8 +71,8 @@ public class Main {
     }
 
     private boolean getGameScreenSize(){
-        JTextField widthFiled = new JTextField(5);
-        JTextField heightFiled = new JTextField(5);
+        JTextField widthFiled = new JTextField("20",5);
+        JTextField heightFiled = new JTextField("20",5);
 
         while (true) {
             JPanel jPanel = new JPanel();
@@ -122,10 +122,6 @@ public class Main {
         createGame(width,height);
         frame.getCenterPanel().add(game.getView(),"GamePanel");
 
-        if (!downPanelInitialized){
-            downPanelInitialized=true;
-        }
-
         frame.setMain(this);
 
         cardLayout.show(frame.getCenterPanel(),"GamePanel");
@@ -133,15 +129,19 @@ public class Main {
 
         frame.pack();
         game.run();
+
+    }
+
+    public void showScore(){
+        System.out.println("score is: " + score);
+
     }
 
     public void createGame(int width, int height){
-        //Mouse mouse = new Mouse(5,5);
         Snake snake = new Snake(10,10);
         game = new RoomV2(width,height, snake, this, keyboardObserver);
         this.setView(game.getView());
         snake.setGame(game);
-
         game.getSnake().setDirection(SnakeDirection.DOWN);
     }
 
@@ -159,9 +159,13 @@ public class Main {
     }
 
     public void switchToHighscorePanel() {
-        highscorePanel = new HighscorePanel(this);
+        highscorePanel = HighscorePanel.getHighscorePanelInstance(this);
         frame.getCenterPanel().add(highscorePanel,"HighscorePanel");
         cardLayout.show(frame.getCenterPanel(),"HighscorePanel");
+    }
+
+    private void initializeHighscorePanel(){
+
     }
 
     public void pause(){
