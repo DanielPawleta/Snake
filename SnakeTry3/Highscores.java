@@ -9,7 +9,8 @@ public class Highscores{
     private ArrayList<Highscore> highscoreList;
     private String fileName = "D:\\Moje\\Java\\Snake\\scores.txt";
 
-    public ArrayList<Highscore> getHighscoreList() {
+    public ArrayList<Highscore> getHighscoreList() throws IOException, ClassNotFoundException {
+        readScoresFromFile();
         return highscoreList;
     }
 
@@ -40,18 +41,18 @@ public class Highscores{
         }
     }
 
-    private void readScoresFromFile() throws IOException, ClassNotFoundException {
+    public void readScoresFromFile() throws IOException, ClassNotFoundException {
         FileInputStream fileInputStream = new FileInputStream(fileName);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         highscoreList = (ArrayList<Highscore>) objectInputStream.readObject();
     }
 
     private void initializeSafetyList(){
-        highscoreList.add(new Highscore("Sam", 100));
-        highscoreList.add(new Highscore("Evan", 90));
-        highscoreList.add(new Highscore("Jennifer", 120));
-        highscoreList.add(new Highscore("Brock", 10));
-        highscoreList.add(new Highscore("Alex", 50));
+        highscoreList.add(new Highscore("Sam", -100));
+        highscoreList.add(new Highscore("Evan", -90));
+        highscoreList.add(new Highscore("Jennifer", -120));
+        highscoreList.add(new Highscore("Brock", -10));
+        highscoreList.add(new Highscore("Alex", -50));
     }
 
 

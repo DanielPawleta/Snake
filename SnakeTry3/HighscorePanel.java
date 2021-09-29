@@ -32,10 +32,15 @@ public class HighscorePanel extends JPanel implements ActionListener {
         initializeButtons();
     }
 
+    public Highscores getHighscores() {
+        return highscores;
+    }
+
     public static HighscorePanel getHighscorePanelInstance(Main main){
         if (highscorePanel==null){
             highscorePanel = new HighscorePanel(main);
         }
+        //highscorePanel.showHighscoreList();
         return highscorePanel;
     }
 
@@ -60,9 +65,9 @@ public class HighscorePanel extends JPanel implements ActionListener {
 
     private void showHighscoreList() {
         try {
-            if (highscores==null) {
+            //if (highscores==null) {
                 highscores = new Highscores();
-            }
+            //}
 
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
@@ -72,7 +77,15 @@ public class HighscorePanel extends JPanel implements ActionListener {
             System.out.println("class not found");
             highscores = new Highscores(true);
         }
-        ArrayList<Highscore> list = highscores.getHighscoreList();
+
+        ArrayList<Highscore> list = null;
+        try {
+            list = highscores.getHighscoreList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         Collections.sort(list);
         Collections.reverse(list);
 

@@ -69,7 +69,7 @@ public class RoomV2 implements ActionListener {
     }
 
     public void run() {
-        timer = new Timer(500,this);
+        timer = new Timer(300,this);
         timer.start();
     }
 
@@ -119,7 +119,10 @@ public class RoomV2 implements ActionListener {
             timer.stop();
             keyboardObserver.turnOff();
             main.showScore();
-            main.switchToButtonPanel();
+
+            main.checkHighscore();
+
+            //main.switchToButtonPanel();
             return;
         }
 
@@ -137,7 +140,10 @@ public class RoomV2 implements ActionListener {
             else if (event.getKeyCode() == KeyEvent.VK_DOWN)
                 snake.setDirection(SnakeDirection.DOWN);
         }
+        //main.showScore();
+
         snake.move();
         print();
+
     }
 }

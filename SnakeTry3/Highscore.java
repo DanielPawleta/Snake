@@ -9,6 +9,7 @@ public class Highscore implements Serializable, Comparable<Highscore> {
     public Highscore(String name, int score) {
         this.name = name;
         this.score = score;
+        System.out.println("Added to list: " + name);
     }
 
     @Override

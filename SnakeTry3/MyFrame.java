@@ -146,6 +146,7 @@ public class MyFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==returnButton){
             main.resume();
+            //main.showScore();
             resetPauseButtonText();
             main.killSnake();
             main.switchToButtonPanel();

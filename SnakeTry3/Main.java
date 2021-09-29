@@ -5,6 +5,8 @@ import swingTest.JTextFieldTest;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Main {
     private View view;  //JPanel with game area
@@ -135,6 +137,8 @@ public class Main {
     public void showScore(){
         System.out.println("score is: " + score);
 
+
+
     }
 
     public void createGame(int width, int height){
@@ -146,6 +150,7 @@ public class Main {
     }
 
     public void switchToButtonPanel() {
+        //showScore();
         zeroCounters();
         frame.disableUpAndDownButtonsVisibility();
         frame.setSize(new Dimension(500,400));
@@ -159,6 +164,7 @@ public class Main {
     }
 
     public void switchToHighscorePanel() {
+        frame.disableUpAndDownButtonsVisibility();
         highscorePanel = HighscorePanel.getHighscorePanelInstance(this);
         frame.getCenterPanel().add(highscorePanel,"HighscorePanel");
         cardLayout.show(frame.getCenterPanel(),"HighscorePanel");
@@ -191,5 +197,60 @@ public class Main {
 
     public void killSnake() {
         game.getSnake().kill();
+    }
+
+    public void checkHighscore() {
+        highscorePanel = HighscorePanel.getHighscorePanelInstance(this);
+        ArrayList<Highscore> highscoreList = highscorePanel.getHighscores().getHighscoreList();
+        Collections.sort(highscoreList);
+        Collections.reverse(highscoreList);
+        if (score > highscoreList.get(4).score){
+            String name = getPlayerName();
+            if (name!=null){
+                highscoreList.add(new Highscore(name,score));
+                switchToHighscorePanel();
+            }
+            System.out.println("yes");
+        }
+        else {
+            switchToButtonPanel();
+            System.out.println("no");
+        }
+    }
+
+    private String getPlayerName(){
+        String name;
+        JTextField nameFiled = new JTextField("Name",5);
+
+        while (true) {
+            JPanel jPanel = new JPanel();
+            jPanel.add(new JLabel("Your score is worth saving! Please enter your name: "));
+            jPanel.add(nameFiled);
+            jPanel.add(Box.createHorizontalStrut(20));
+
+            int result = JOptionPane.showConfirmDialog(buttonPanel,jPanel,"Congratulations!", JOptionPane.OK_CANCEL_OPTION);
+
+            if (result== JOptionPane.CANCEL_OPTION) {
+                switchToButtonPanel();
+                return null;
+            }
+            else {
+                try {
+                    name = nameFiled.getText();
+
+                    if (name.length()>25) throw new NameTooLongException();
+                    if (!name.matches("[a-zA-Z]")) throw new IllegalCharacterException();
+                    break;
+                }
+                catch (NumberFormatException e){
+                    JOptionPane.showMessageDialog(jPanel,"Please enter only numbers","Warning", JOptionPane.WARNING_MESSAGE);
+                } catch (NameTooLongException e) {
+                    JOptionPane.showMessageDialog(jPanel,"Name is too long, please enter shorter word!","Warning", JOptionPane.WARNING_MESSAGE);
+                } catch (IllegalCharacterException e) {
+                    JOptionPane.showMessageDialog(jPanel,"Please enter onyl letters","Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+        return name;
     }
 }
