@@ -41,7 +41,6 @@ public class HighscorePanel extends JPanel implements ActionListener {
         if (highscorePanel==null){
             highscorePanel = new HighscorePanel(main);
         }
-        //highscorePanel.showHighscoreList();
         return highscorePanel;
     }
 
@@ -65,38 +64,16 @@ public class HighscorePanel extends JPanel implements ActionListener {
     }
 
     private void showHighscoreList() {
-        //try {
-            //if (highscores==null) {
-                highscores = new Highscores();
-            //}
-/*
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,
-                    "File is missing or broken. Resetting highscore list.");
-            highscores = new Highscores(true);
-        } catch (ClassNotFoundException e) {
-            System.out.println("class not found");
-            highscores = new Highscores(true);
-        }
-
- */
-
+        highscores = new Highscores();
         ArrayList<Highscore> list = null;
         list = highscores.getHighscoreList();
         Collections.sort(list);
         Collections.reverse(list);
 
-        //System.out.println("list in highscore panel");
-        for (Highscore highscore : list){
-            //System.out.println(highscore.name);
-        }
-        //System.out.println();
         showBest5Scores();
     }
 
     private void showBest5Scores() {
-        //System.out.println("show 5 scores");
-        //Border border = BorderFactory.createLineBorder(Color.black);
         scoresPanel = new JPanel(new GridLayout(5,2));
 
         for (int i=0;i<5;i++){
@@ -104,10 +81,8 @@ public class HighscorePanel extends JPanel implements ActionListener {
             int score = highscores.getHighscoreList().get(i).score;
 
             JLabel nameLabel = new JLabel(name.concat("..."),SwingConstants.RIGHT);
-            //nameLabel.setBorder(border);
             scoresPanel.add(nameLabel);
             JLabel scoreLabel = new JLabel("..." + score);
-            //scoreLabel.setBorder(border);
             scoresPanel.add(scoreLabel);
         }
         this.add(scoresPanel,1);

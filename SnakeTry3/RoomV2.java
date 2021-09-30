@@ -1,30 +1,28 @@
 package SnakeTry3;
 
 
-
 import javax.swing.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 
-public class RoomV2 implements ActionListener {
+public class RoomV2 implements ActionListener, Serializable {
     private int width; //wielkosc pola rozgrywki w poziomie
     private int height; //wielkosc pola rozgrywki w pionie
     private Snake snake;
     private Mouse mouse;
     private View view;
-    private Main main;
-    private KeyboardObserver keyboardObserver;
+    private transient Main main;
+    private transient KeyboardObserver keyboardObserver;
     private Timer timer;
     private boolean isPaused;
-
 
     public RoomV2(int width, int height, Snake snake, Main main, KeyboardObserver keyboardObserver) {
         this.width = width;
         this.height = height;
         this.snake = snake;
-        //this.mouse = mouse;
         this.view = new View(width, height, snake);
         createMouse();
 
@@ -78,7 +76,6 @@ public class RoomV2 implements ActionListener {
         keyboardObserver.turnOff();
     }
 
-
     public void resume() {
         isPaused=false;
         keyboardObserver.turnOn();
@@ -118,18 +115,11 @@ public class RoomV2 implements ActionListener {
         if(!snake.isAlive()) {
             timer.stop();
             keyboardObserver.turnOff();
-            //main.showScore();
-
             main.checkHighscore();
-
-            //main.switchToButtonPanel();
             return;
         }
-
         if (keyboardObserver.hasKeyEvents()) {
             KeyEvent event = keyboardObserver.getEventFromTop();
-
-            //if (event.getKeyChar() == 'q') return;
             if (event.getKeyCode() == KeyEvent.VK_LEFT) {
                 snake.setDirection(SnakeDirection.LEFT);
             }
@@ -140,10 +130,12 @@ public class RoomV2 implements ActionListener {
             else if (event.getKeyCode() == KeyEvent.VK_DOWN)
                 snake.setDirection(SnakeDirection.DOWN);
         }
-        //main.showScore();
-
         snake.move();
         print();
+    }
+
+    public void saveGame(){
+
 
     }
 }

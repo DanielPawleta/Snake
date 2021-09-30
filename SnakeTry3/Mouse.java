@@ -1,9 +1,9 @@
 package SnakeTry3;
 
 
+import java.io.Serializable;
 
-
-public class Mouse {
+public class Mouse implements Serializable {
     private int x;
     private int y;
 

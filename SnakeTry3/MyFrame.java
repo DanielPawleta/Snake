@@ -17,7 +17,7 @@ public class MyFrame extends JFrame implements ActionListener {
     private JButton returnButton;
     private JButton pauseButton;
     private final String PAUSE_BUTTON_TEXT = "Pause";
-    private JButton saveBnutton;
+    private JButton saveButton;
     private boolean areButtonsVisible=true;
 
     private JPanel leftPanel ;
@@ -74,52 +74,28 @@ public class MyFrame extends JFrame implements ActionListener {
         this.add(centerPanel,BorderLayout.CENTER);
     }
 
-    private void initializeUpPanel() {
-        int speed=0;
-        int score=0;
-        if (main!=null) speed = main.getSpeed();
-        if (main!=null) score = main.getScore();
-
-        upPanel.setLayout(new GridLayout(1,2,10,5));
-
-        speedLabel = new JLabel("Speed: " + speed);
-        speedLabel.setFont(new Font("",Font.PLAIN,20));
-        speedLabel.setForeground(Color.MAGENTA);
-        speedLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        speedLabel.setVisible(false);
-
-        scoreLabel = new JLabel("Score: " + score);
-        scoreLabel.setFont(new Font("",Font.PLAIN,20));
-        scoreLabel.setForeground(Color.MAGENTA);
-        scoreLabel.setVisible(false);
-        scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
-        upPanel.add(speedLabel);
-        upPanel.add(scoreLabel);
-    }
-
     public void initializeDownPanel() {
         downPanel.setLayout(new GridLayout(1,3,50,10) );
 
         returnButton = new JButton("Return");
         pauseButton = new JButton(PAUSE_BUTTON_TEXT);
-        saveBnutton = new JButton("Save game");
+        saveButton = new JButton("Save game");
 
         returnButton.addActionListener(this);
         pauseButton.addActionListener(this);
-        saveBnutton.addActionListener(this);
+        saveButton.addActionListener(this);
 
         downPanel.add(returnButton);
         downPanel.add(pauseButton);
-        downPanel.add(saveBnutton);
+        downPanel.add(saveButton);
 
         returnButton.setFocusable(false);
         pauseButton.setFocusable(false);
-        saveBnutton.setFocusable(false);
+        saveButton.setFocusable(false);
 
         returnButton.setVisible(false);
         pauseButton.setVisible(false);
-        saveBnutton.setVisible(false);
+        saveButton.setVisible(false);
     }
 
     public void ableUpAndDownButtonsVisibility(){
@@ -127,7 +103,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
         returnButton.setVisible(true);
         pauseButton.setVisible(true);
-        saveBnutton.setVisible(true);
+        saveButton.setVisible(true);
     }
 
     public void disableUpAndDownButtonsVisibility(){
@@ -135,7 +111,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
         returnButton.setVisible(false);
         pauseButton.setVisible(false);
-        saveBnutton.setVisible(false);
+        saveButton.setVisible(false);
     }
 
     public JPanel getCenterPanel() {
@@ -146,7 +122,6 @@ public class MyFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==returnButton){
             main.resume();
-            //main.showScore();
             resetPauseButtonText();
             main.killSnake();
             main.switchToButtonPanel();
@@ -154,6 +129,11 @@ public class MyFrame extends JFrame implements ActionListener {
         if (e.getSource()==pauseButton){
             changePauseButtonText();
             main.pause();
+        }
+        if (e.getSource()== saveButton){
+            changePauseButtonText();
+            main.pause();
+            main.saveGame();
         }
     }
 

@@ -1,10 +1,17 @@
 package SnakeTry3;
 
 
-import swingTest.JTextFieldTest;
+//import swingTest.JTextFieldTest;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -16,9 +23,9 @@ public class Main {
     private AboutPanel aboutPanel; //JPanel
     private HighscorePanel highscorePanel; //JPanel
     private RoomV2 game;
+    private String gameSavedName = "D:\\Moje\\Java\\Snake\\savedGame.txt";
     private KeyboardObserver keyboardObserver;
     private boolean isPaused;
-    //private boolean downPanelInitialized = false;
     private int width=20;
     private int height=20;
     private int speed=0;
@@ -116,29 +123,18 @@ public class Main {
             keyboardObserver.setContainer(frame);
             keyboardObserver.run();
         }
-
         keyboardObserver.turnOn();
 
-        if (!getGameScreenSize()) return;
+        if (!getGameScreenSize()) return; //when user clicked cancel button
 
         createGame(width,height);
         frame.getCenterPanel().add(game.getView(),"GamePanel");
-
         frame.setMain(this);
 
         cardLayout.show(frame.getCenterPanel(),"GamePanel");
         frame.ableUpAndDownButtonsVisibility();
-
         frame.pack();
         game.run();
-
-    }
-
-    public void showScore(){
-        System.out.println("score is: " + score);
-
-
-
     }
 
     public void createGame(int width, int height){
@@ -150,7 +146,6 @@ public class Main {
     }
 
     public void switchToButtonPanel() {
-        //showScore();
         zeroCounters();
         frame.disableUpAndDownButtonsVisibility();
         frame.setSize(new Dimension(500,400));
@@ -170,10 +165,6 @@ public class Main {
         frame.getCenterPanel().add(highscorePanel,"HighscorePanel");
         highscorePanel.repaint();
         cardLayout.show(frame.getCenterPanel(),"HighscorePanel");
-    }
-
-    private void initializeHighscorePanel(){
-
     }
 
     public void pause(){
@@ -209,23 +200,13 @@ public class Main {
         if (score > highscoreList.get(4).score){
             String name = getPlayerName();
             if (name!=null){
-
-
                 highscoreList.add(new Highscore(name,score));
                 highscorePanel.getHighscores().saveScoresToFile();
-
-                //System.out.println("list in main");
-
-                for (Highscore highscore : highscoreList){
-                    //System.out.println(highscore.name);
-                }
                 switchToHighscorePanel();
             }
-            //System.out.println("yes");
         }
         else {
             switchToButtonPanel();
-            //System.out.println("no");
         }
     }
 
@@ -248,7 +229,6 @@ public class Main {
             else {
                 try {
                     name = nameFiled.getText();
-
                     if (name.length()>25) throw new NameTooLongException();
                     if (!name.matches("[a-zA-Z]")) throw new IllegalCharacterException();
                     break;
@@ -258,10 +238,37 @@ public class Main {
                 } catch (NameTooLongException e) {
                     JOptionPane.showMessageDialog(jPanel,"Name is too long, please enter shorter word!","Warning", JOptionPane.WARNING_MESSAGE);
                 } catch (IllegalCharacterException e) {
-                    JOptionPane.showMessageDialog(jPanel,"Please enter onyl letters","Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(jPanel,"Please enter only letters","Warning", JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
         return name;
+    }
+
+    public void saveGame() {
+        Path path = Paths.get(gameSavedName);
+        if (Files.notExists(path)) {
+            //System.out.println("not exisiting");
+            try {
+                Files.createDirectories(path.getParent());
+                Files.createFile(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try  (FileOutputStream fileOutputStream =
+                      new FileOutputStream(gameSavedName);
+              ObjectOutputStream objectOutputStream =
+                      new ObjectOutputStream(fileOutputStream)
+        )
+        {
+            objectOutputStream.writeObject(game);
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

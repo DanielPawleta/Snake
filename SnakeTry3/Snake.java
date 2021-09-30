@@ -1,9 +1,10 @@
 package SnakeTry3;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Snake {
+public class Snake implements Serializable {
     private SnakeDirection direction;
     private boolean isAlive;
     private ArrayList<SnakeSection> sections;

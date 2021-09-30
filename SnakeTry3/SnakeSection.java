@@ -1,6 +1,8 @@
 package SnakeTry3;
 
-public class SnakeSection {
+import java.io.Serializable;
+
+public class SnakeSection implements Serializable {
     private int x; // x - coordinate of this section in width
     private int y; // y - coordinate of this section in height
 
