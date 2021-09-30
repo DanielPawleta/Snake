@@ -16,6 +16,7 @@ public class HighscorePanel extends JPanel implements ActionListener {
     private JButton okButton;
     private Highscores highscores;
     private Main main;
+    private JPanel scoresPanel;
     private static HighscorePanel highscorePanel;
 
     private HighscorePanel(Main main) {
@@ -64,11 +65,11 @@ public class HighscorePanel extends JPanel implements ActionListener {
     }
 
     private void showHighscoreList() {
-        try {
+        //try {
             //if (highscores==null) {
                 highscores = new Highscores();
             //}
-
+/*
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
                     "File is missing or broken. Resetting highscore list.");
@@ -78,23 +79,25 @@ public class HighscorePanel extends JPanel implements ActionListener {
             highscores = new Highscores(true);
         }
 
+ */
+
         ArrayList<Highscore> list = null;
-        try {
-            list = highscores.getHighscoreList();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        list = highscores.getHighscoreList();
         Collections.sort(list);
         Collections.reverse(list);
 
+        //System.out.println("list in highscore panel");
+        for (Highscore highscore : list){
+            //System.out.println(highscore.name);
+        }
+        //System.out.println();
         showBest5Scores();
     }
 
     private void showBest5Scores() {
+        //System.out.println("show 5 scores");
         //Border border = BorderFactory.createLineBorder(Color.black);
-        JPanel scoresPanel = new JPanel(new GridLayout(5,2));
+        scoresPanel = new JPanel(new GridLayout(5,2));
 
         for (int i=0;i<5;i++){
             String name = highscores.getHighscoreList().get(i).name;
@@ -107,6 +110,15 @@ public class HighscorePanel extends JPanel implements ActionListener {
             //scoreLabel.setBorder(border);
             scoresPanel.add(scoreLabel);
         }
-        this.add(scoresPanel);
+        this.add(scoresPanel,1);
     }
+
+    public void resetBest5Scores(){
+        this.remove(scoresPanel);
+        showHighscoreList();
+    }
+
+
+
+
 }

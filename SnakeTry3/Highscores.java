@@ -9,14 +9,26 @@ public class Highscores{
     private ArrayList<Highscore> highscoreList;
     private String fileName = "D:\\Moje\\Java\\Snake\\scores.txt";
 
-    public ArrayList<Highscore> getHighscoreList() throws IOException, ClassNotFoundException {
-        readScoresFromFile();
+    public ArrayList<Highscore> getHighscoreList() {
+        //readScoresFromFile();
         return highscoreList;
     }
 
-    public Highscores() throws IOException, ClassNotFoundException {
+    public Highscores() {
         this.highscoreList = new ArrayList<>();
-        readScoresFromFile();
+        try {
+            readScoresFromFile();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null,
+                    "File is missing or broken. Resetting highscore list.");
+            initializeSafetyList();
+
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Class not found error. Resetting highscore list.");
+            initializeSafetyList();
+
+        }
     }
 
     public Highscores(boolean safetyMode) {
@@ -25,6 +37,7 @@ public class Highscores{
     }
 
     public void saveScoresToFile() {
+        //System.out.println("save to file");
         try  (FileOutputStream fileOutputStream =
              new FileOutputStream(fileName);
              ObjectOutputStream objectOutputStream =
@@ -42,6 +55,7 @@ public class Highscores{
     }
 
     public void readScoresFromFile() throws IOException, ClassNotFoundException {
+        //System.out.println("read from file");
         FileInputStream fileInputStream = new FileInputStream(fileName);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         highscoreList = (ArrayList<Highscore>) objectInputStream.readObject();

@@ -166,7 +166,9 @@ public class Main {
     public void switchToHighscorePanel() {
         frame.disableUpAndDownButtonsVisibility();
         highscorePanel = HighscorePanel.getHighscorePanelInstance(this);
+        highscorePanel.resetBest5Scores();
         frame.getCenterPanel().add(highscorePanel,"HighscorePanel");
+        highscorePanel.repaint();
         cardLayout.show(frame.getCenterPanel(),"HighscorePanel");
     }
 
@@ -207,14 +209,23 @@ public class Main {
         if (score > highscoreList.get(4).score){
             String name = getPlayerName();
             if (name!=null){
+
+
                 highscoreList.add(new Highscore(name,score));
+                highscorePanel.getHighscores().saveScoresToFile();
+
+                //System.out.println("list in main");
+
+                for (Highscore highscore : highscoreList){
+                    //System.out.println(highscore.name);
+                }
                 switchToHighscorePanel();
             }
-            System.out.println("yes");
+            //System.out.println("yes");
         }
         else {
             switchToButtonPanel();
-            System.out.println("no");
+            //System.out.println("no");
         }
     }
 
