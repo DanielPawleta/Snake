@@ -5,10 +5,7 @@ package SnakeTry3;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -128,6 +125,7 @@ public class Main {
         if (!getGameScreenSize()) return; //when user clicked cancel button
 
         createGame(width,height);
+
         frame.getCenterPanel().add(game.getView(),"GamePanel");
         frame.setMain(this);
 
@@ -137,6 +135,31 @@ public class Main {
         game.run();
     }
 
+    public void switchToGamePanel(RoomV2 game) {
+        this.game=game;
+        if (keyboardObserver==null) {
+            keyboardObserver = new KeyboardObserver();
+            keyboardObserver.setContainer(frame);
+            keyboardObserver.run();
+            this.game.setKeyboardObserver(keyboardObserver);
+            //System.out.println("use setter for keyboarde obsrever");
+        }
+        this.setView(game.getView());
+
+        this.game.setMain(this);
+
+        frame.getCenterPanel().add(game.getView(),"GamePanel");
+        frame.setMain(this);
+
+        cardLayout.show(frame.getCenterPanel(),"GamePanel");
+        frame.ableUpAndDownButtonsVisibility();
+        frame.pack();
+        this.game.run();
+        isPaused=true;
+        frame.changePauseButtonText();
+    }
+
+
     public void createGame(int width, int height){
         Snake snake = new Snake(10,10);
         game = new RoomV2(width,height, snake, this, keyboardObserver);
@@ -144,6 +167,7 @@ public class Main {
         snake.setGame(game);
         game.getSnake().setDirection(SnakeDirection.DOWN);
     }
+
 
     public void switchToButtonPanel() {
         zeroCounters();
@@ -169,6 +193,7 @@ public class Main {
 
     public void pause(){
         if (!isPaused) {
+            System.out.println("A");
             isPaused = true;
             game.pause();
         }
@@ -246,19 +271,30 @@ public class Main {
     }
 
     public void saveGame() {
-        Path path = Paths.get(gameSavedName);
-        if (Files.notExists(path)) {
-            //System.out.println("not exisiting");
+        File saveFile = null;
+        JFileChooser jFileChooser = new JFileChooser("D:\\Moje\\Java\\Snake\\");
+
+        if (jFileChooser.showSaveDialog(null)==JFileChooser.APPROVE_OPTION){
+            saveFile = jFileChooser.getSelectedFile();
+            if (!saveFile.getName().endsWith(".txt")) {
+                String saveFileString = saveFile + ".txt";
+                saveFile = new File(saveFileString);
+            }
+        }
+        else return;
+
+        Path savePath = saveFile.toPath();
+        if (Files.notExists(savePath)) {
             try {
-                Files.createDirectories(path.getParent());
-                Files.createFile(path);
+                Files.createDirectories(savePath.getParent());
+                Files.createFile(savePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         try  (FileOutputStream fileOutputStream =
-                      new FileOutputStream(gameSavedName);
+                      new FileOutputStream(saveFile);
               ObjectOutputStream objectOutputStream =
                       new ObjectOutputStream(fileOutputStream)
         )
@@ -270,5 +306,43 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void loadGame() {
+        File loadFile = null;
+        JFileChooser jFileChooser = new JFileChooser("D:\\Moje\\Java\\Snake\\");
+
+        while (true) {
+            if (jFileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                loadFile = jFileChooser.getSelectedFile();
+                if (loadFile.getName().endsWith(".txt")) {
+                    break;
+                }
+                else {
+                    JOptionPane.showMessageDialog(jFileChooser,"Please select only txt file","Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            } else return;
+        }
+
+        try  (FileInputStream fileInputStream =
+                      new FileInputStream(loadFile);
+              ObjectInputStream objectInputStream =
+                      new ObjectInputStream(fileInputStream)
+        )
+        {
+            game = (RoomV2) objectInputStream.readObject();
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("class fot found");
+            e.printStackTrace();
+        }
+
+        switchToGamePanel(game);
+
+
     }
 }

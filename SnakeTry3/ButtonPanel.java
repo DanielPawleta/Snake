@@ -67,6 +67,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==newGameButton) main.switchToGamePanel();
+        if (e.getSource()==loadGameButton) main.loadGame();
         if (e.getSource()==aboutButton) main.switchToAboutPanel();
         if (e.getSource()==highscoreButton) main.switchToHighscorePanel();
         if (e.getSource()==exitButton) System.exit(0);

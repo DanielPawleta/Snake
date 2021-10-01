@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.io.Serializable;
 
 public class RoomV2 implements ActionListener, Serializable {
+    private static final long serialVersionUID = 1L;
     private int width; //wielkosc pola rozgrywki w poziomie
     private int height; //wielkosc pola rozgrywki w pionie
     private Snake snake;
@@ -18,6 +19,14 @@ public class RoomV2 implements ActionListener, Serializable {
     private transient KeyboardObserver keyboardObserver;
     private Timer timer;
     private boolean isPaused;
+
+    public void setKeyboardObserver(KeyboardObserver keyboardObserver) {
+        this.keyboardObserver = keyboardObserver;
+    }
+
+    public void setMain(Main main) {
+        this.main = main;
+    }
 
     public RoomV2(int width, int height, Snake snake, Main main, KeyboardObserver keyboardObserver) {
         this.width = width;
@@ -78,10 +87,13 @@ public class RoomV2 implements ActionListener, Serializable {
 
     public void resume() {
         isPaused=false;
+        if (keyboardObserver==null) System.out.println("null");
         keyboardObserver.turnOn();
     }
 
     public void print() {
+        System.out.println("B");
+        if (main==null) System.out.println("main is null");
         main.getFrame().getCenterPanel().repaint();
         main.getFrame().getUpPanel().repaint();
     }
@@ -135,7 +147,6 @@ public class RoomV2 implements ActionListener, Serializable {
     }
 
     public void saveGame(){
-
-
+        System.out.println("save");
     }
 }

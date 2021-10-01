@@ -96,6 +96,8 @@ public class MyFrame extends JFrame implements ActionListener {
         returnButton.setVisible(false);
         pauseButton.setVisible(false);
         saveButton.setVisible(false);
+
+        saveButton.setEnabled(false);
     }
 
     public void ableUpAndDownButtonsVisibility(){
@@ -131,18 +133,24 @@ public class MyFrame extends JFrame implements ActionListener {
             main.pause();
         }
         if (e.getSource()== saveButton){
-            changePauseButtonText();
-            main.pause();
             main.saveGame();
         }
     }
 
-    private void changePauseButtonText(){
-        if (pauseButton.getText().equals(PAUSE_BUTTON_TEXT)) pauseButton.setText("Resume");
-        else pauseButton.setText(PAUSE_BUTTON_TEXT);
+    public void changePauseButtonText(){
+        if (pauseButton.getText().equals(PAUSE_BUTTON_TEXT)) {
+            saveButton.setEnabled(true);
+            pauseButton.setText("Resume");
+        }
+        else {
+            saveButton.setEnabled(false);
+            pauseButton.setText(PAUSE_BUTTON_TEXT);
+        }
     }
 
     private void resetPauseButtonText(){
         pauseButton.setText(PAUSE_BUTTON_TEXT);
     }
+
+
 }
