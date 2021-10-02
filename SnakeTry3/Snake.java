@@ -3,23 +3,14 @@ package SnakeTry3;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
 public class Snake implements Serializable {
     private SnakeDirection direction;
     private boolean isAlive;
-    private ArrayList<SnakeSection> sections;
+    private final ArrayList<SnakeSection> sections;
     private Mouse mouse;
-    private RoomV2 game;
+    private Game game;
 
-    public Mouse getMouse() {
-        return mouse;
-    }
-
-    public void setGame(RoomV2 game) {
-        this.game = game;
-    }
-
-
+    //Constructor
     public Snake(int x, int y) {
         sections = new ArrayList<>();
         sections.add(new SnakeSection(x, y));
@@ -27,30 +18,7 @@ public class Snake implements Serializable {
         isAlive = true;
     }
 
-    public boolean isAlive() {
-        return isAlive;
-    }
-
-    public int getX() {
-        return sections.get(0).getX();
-    }
-
-    public int getY() {
-        return sections.get(0).getY();
-    }
-
-    public SnakeDirection getDirection() {
-        return direction;
-    }
-
-    public void setDirection(SnakeDirection direction) {
-        this.direction = direction;
-    }
-
-    public ArrayList<SnakeSection> getSections() {
-        return sections;
-    }
-
+    //Methods
     public void move() {
         if (!isAlive) return;
 
@@ -64,9 +32,7 @@ public class Snake implements Serializable {
             move(-1, 0);
     }
 
-
     private void move(int dx, int dy) {
-
         SnakeSection head = sections.get(0);
         head = new SnakeSection(head.getX() + dx, head.getY() + dy);
 
@@ -102,8 +68,32 @@ public class Snake implements Serializable {
         }
     }
 
-
     public void kill() {
         isAlive=false;
+    }
+
+    public int getHeadX() {
+        return sections.get(0).getX();
+    }
+
+    public int getHeadY() {
+        return sections.get(0).getY();
+    }
+
+    //Getters and Setters
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public ArrayList<SnakeSection> getSections() {
+        return sections;
+    }
+
+    public void setDirection(SnakeDirection direction) {
+        this.direction = direction;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

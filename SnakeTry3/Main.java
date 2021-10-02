@@ -1,14 +1,15 @@
 package SnakeTry3;
 
-
-//import swingTest.JTextFieldTest;
+import SnakeTry3.Exceptions.IllegalCharacterException;
+import SnakeTry3.Exceptions.NameTooLongException;
+import SnakeTry3.Exceptions.SizeTooBigException;
+import SnakeTry3.Exceptions.SizeTooSmallException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -19,8 +20,7 @@ public class Main {
     private ButtonPanel buttonPanel; //JPanel
     private AboutPanel aboutPanel; //JPanel
     private HighscorePanel highscorePanel; //JPanel
-    private RoomV2 game;
-    private String gameSavedName = "D:\\Moje\\Java\\Snake\\savedGame.txt";
+    private Game game;
     private KeyboardObserver keyboardObserver;
     private boolean isPaused;
     private int width=20;
@@ -28,37 +28,10 @@ public class Main {
     private int speed=0;
     private int score=0;
 
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public KeyboardObserver getKeyboardObserver() {
-        return keyboardObserver;
-    }
-
-    public MyFrame getFrame() {
-        return frame;
-    }
-
-    public void setView(View view) {
-        this.view = view;
-    }
-
+    //Methods
     public static void main(String[] args) {
-         Main main = new Main();
-         main.run();
+        Main main = new Main();
+        main.run();
     }
 
     public void run() {
@@ -74,6 +47,14 @@ public class Main {
         frame.setSize(new Dimension(500,400));
         frame.setResizable(true);
         frame.setVisible(true);
+    }
+
+    public void createGame(int width, int height){
+        Snake snake = new Snake(10,10);
+        game = new Game(width,height, snake, this, keyboardObserver);
+        this.setView(game.getView());
+        snake.setGame(game);
+        game.getSnake().setDirection(SnakeDirection.DOWN);
     }
 
     private boolean getGameScreenSize(){
@@ -135,39 +116,27 @@ public class Main {
         game.run();
     }
 
-    public void switchToGamePanel(RoomV2 game) {
-        this.game=game;
-        if (keyboardObserver==null) {
-            keyboardObserver = new KeyboardObserver();
-            keyboardObserver.setContainer(frame);
-            keyboardObserver.run();
-            this.game.setKeyboardObserver(keyboardObserver);
-            //System.out.println("use setter for keyboarde obsrever");
-        }
+    public void switchToGamePanel(Game game) {
+        this.game = game;
+        this.speed = game.getSpeed();
+        this.score = game.getScore();
+        keyboardObserver = new KeyboardObserver();
+        keyboardObserver.setContainer(frame);
+        keyboardObserver.run();
+        this.game.setKeyboardObserver(keyboardObserver);
+        this.game.setMain(this);
         this.setView(game.getView());
 
-        this.game.setMain(this);
-
-        frame.getCenterPanel().add(game.getView(),"GamePanel");
+        frame.getCenterPanel().add(game.getView(), "GamePanel");
         frame.setMain(this);
 
-        cardLayout.show(frame.getCenterPanel(),"GamePanel");
+        cardLayout.show(frame.getCenterPanel(), "GamePanel");
         frame.ableUpAndDownButtonsVisibility();
         frame.pack();
         this.game.run();
-        isPaused=true;
+        isPaused = true;
         frame.changePauseButtonText();
     }
-
-
-    public void createGame(int width, int height){
-        Snake snake = new Snake(10,10);
-        game = new RoomV2(width,height, snake, this, keyboardObserver);
-        this.setView(game.getView());
-        snake.setGame(game);
-        game.getSnake().setDirection(SnakeDirection.DOWN);
-    }
-
 
     public void switchToButtonPanel() {
         zeroCounters();
@@ -193,7 +162,6 @@ public class Main {
 
     public void pause(){
         if (!isPaused) {
-            System.out.println("A");
             isPaused = true;
             game.pause();
         }
@@ -222,7 +190,7 @@ public class Main {
         ArrayList<Highscore> highscoreList = highscorePanel.getHighscores().getHighscoreList();
         Collections.sort(highscoreList);
         Collections.reverse(highscoreList);
-        if (score > highscoreList.get(4).score){
+        if (score > highscoreList.get(4).getScore()){
             String name = getPlayerName();
             if (name!=null){
                 highscoreList.add(new Highscore(name,score));
@@ -255,7 +223,7 @@ public class Main {
                 try {
                     name = nameFiled.getText();
                     if (name.length()>25) throw new NameTooLongException();
-                    if (!name.matches("[a-zA-Z]")) throw new IllegalCharacterException();
+                    if (!name.matches("[a-zA-Z]+")) throw new IllegalCharacterException();
                     break;
                 }
                 catch (NumberFormatException e){
@@ -271,7 +239,7 @@ public class Main {
     }
 
     public void saveGame() {
-        File saveFile = null;
+        File saveFile;
         JFileChooser jFileChooser = new JFileChooser("D:\\Moje\\Java\\Snake\\");
 
         if (jFileChooser.showSaveDialog(null)==JFileChooser.APPROVE_OPTION){
@@ -299,6 +267,8 @@ public class Main {
                       new ObjectOutputStream(fileOutputStream)
         )
         {
+            game.setScore(score);
+            game.setSpeed(speed);
             objectOutputStream.writeObject(game);
         } catch (FileNotFoundException e) {
             System.out.println("file not found");
@@ -309,7 +279,7 @@ public class Main {
     }
 
     public void loadGame() {
-        File loadFile = null;
+        File loadFile;
         JFileChooser jFileChooser = new JFileChooser("D:\\Moje\\Java\\Snake\\");
 
         while (true) {
@@ -330,19 +300,36 @@ public class Main {
                       new ObjectInputStream(fileInputStream)
         )
         {
-            game = (RoomV2) objectInputStream.readObject();
-        } catch (FileNotFoundException e) {
-            System.out.println("file not found");
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("class fot found");
-            e.printStackTrace();
+            game = (Game) objectInputStream.readObject();
+        } catch (IOException | ClassCastException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Incompatible file", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-
         switchToGamePanel(game);
+    }
 
+    //Getters and Setters
+    public int getSpeed() {
+        return speed;
+    }
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public MyFrame getFrame() {
+        return frame;
+    }
+
+    public void setView(View view) {
+        this.view = view;
     }
 }

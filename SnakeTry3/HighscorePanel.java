@@ -15,10 +15,11 @@ public class HighscorePanel extends JPanel implements ActionListener {
     private JLabel highscoreLabel;
     private JButton okButton;
     private Highscores highscores;
-    private Main main;
+    private final Main main;
     private JPanel scoresPanel;
     private static HighscorePanel highscorePanel;
 
+    //Constructor
     private HighscorePanel(Main main) {
         this.main = main;
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -33,10 +34,6 @@ public class HighscorePanel extends JPanel implements ActionListener {
         initializeButtons();
     }
 
-    public Highscores getHighscores() {
-        return highscores;
-    }
-
     public static HighscorePanel getHighscorePanelInstance(Main main){
         if (highscorePanel==null){
             highscorePanel = new HighscorePanel(main);
@@ -44,7 +41,7 @@ public class HighscorePanel extends JPanel implements ActionListener {
         return highscorePanel;
     }
 
-
+    //Methods
     private void initializeButtons(){
         okButton = new JButton("OK");
         okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -65,7 +62,7 @@ public class HighscorePanel extends JPanel implements ActionListener {
 
     private void showHighscoreList() {
         highscores = new Highscores();
-        ArrayList<Highscore> list = null;
+        ArrayList<Highscore> list;
         list = highscores.getHighscoreList();
         Collections.sort(list);
         Collections.reverse(list);
@@ -77,8 +74,8 @@ public class HighscorePanel extends JPanel implements ActionListener {
         scoresPanel = new JPanel(new GridLayout(5,2));
 
         for (int i=0;i<5;i++){
-            String name = highscores.getHighscoreList().get(i).name;
-            int score = highscores.getHighscoreList().get(i).score;
+            String name = highscores.getHighscoreList().get(i).getName();
+            int score = highscores.getHighscoreList().get(i).getScore();
 
             JLabel nameLabel = new JLabel(name.concat("..."),SwingConstants.RIGHT);
             scoresPanel.add(nameLabel);
@@ -93,7 +90,8 @@ public class HighscorePanel extends JPanel implements ActionListener {
         showHighscoreList();
     }
 
-
-
-
+    //Getters and Setters
+    public Highscores getHighscores() {
+        return highscores;
+    }
 }

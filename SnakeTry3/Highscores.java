@@ -1,7 +1,6 @@
 package SnakeTry3;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,12 +9,9 @@ import java.util.ArrayList;
 
 public class Highscores{
     private ArrayList<Highscore> highscoreList;
-    private String fileName = "D:\\Moje\\Java\\Snake\\scores.txt";
+    private final String fileName = "D:\\Moje\\Java\\Snake\\scores.txt";
 
-    public ArrayList<Highscore> getHighscoreList() {
-        return highscoreList;
-    }
-
+    //Constructor
     public Highscores() {
         this.highscoreList = new ArrayList<>();
         try {
@@ -31,6 +27,7 @@ public class Highscores{
         }
     }
 
+    //Methods
     public void saveScoresToFile() {
         Path path = Paths.get(fileName);
         if (Files.notExists(path)) {
@@ -65,14 +62,15 @@ public class Highscores{
     }
 
     private void initializeSafetyList(){
-        highscoreList.add(new Highscore("Sam", -100));
-        highscoreList.add(new Highscore("Evan", -90));
-        highscoreList.add(new Highscore("Jennifer", -120));
-        highscoreList.add(new Highscore("Brock", -10));
-        highscoreList.add(new Highscore("Alex", -50));
+        highscoreList.add(new Highscore("Sam", 100));
+        highscoreList.add(new Highscore("Evan", 90));
+        highscoreList.add(new Highscore("Jennifer", 120));
+        highscoreList.add(new Highscore("Brock", 10));
+        highscoreList.add(new Highscore("Alex", 50));
     }
 
-
-
-
+    //Getters and Setters
+    public ArrayList<Highscore> getHighscoreList() {
+        return highscoreList;
+    }
 }

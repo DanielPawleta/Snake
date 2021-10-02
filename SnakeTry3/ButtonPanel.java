@@ -14,6 +14,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
     private JButton exitButton;
     private Main main;
 
+    //Constructor
     public ButtonPanel(Main main) {
         this.main = main;
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -26,6 +27,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
         initializeButtons();
     }
 
+    //Methods
     private void initializeButtons(){
         newGameButton = new JButton("New Game");
         loadGameButton =new JButton("Load Game");

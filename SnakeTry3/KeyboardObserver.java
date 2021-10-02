@@ -7,14 +7,11 @@ import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class KeyboardObserver implements KeyListener{
-    private Queue<KeyEvent> keyEvents = new ArrayBlockingQueue<>(100);
+    private final Queue<KeyEvent> keyEvents = new ArrayBlockingQueue<>(1000);
     private Container container;
     private boolean active;
 
-    public void setContainer(Container container) {
-        this.container = container;
-    }
-
+    //Methods
     @Override
     public void keyTyped(KeyEvent e) {}
 
@@ -49,5 +46,10 @@ public class KeyboardObserver implements KeyListener{
 
     public void turnOn(){
         active=true;
+    }
+
+    //Getters and Setters
+    public void setContainer(Container container) {
+        this.container = container;
     }
 }

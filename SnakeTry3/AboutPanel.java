@@ -8,12 +8,12 @@ import java.awt.event.ActionListener;
 public class AboutPanel extends JPanel implements ActionListener {
     private JLabel descriptionLabel;
     private JButton okButton;
-    private Main main;
+    private final Main main;
 
+    //Constructor
     public AboutPanel(Main main) {
         this.main = main;
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-
 
         descriptionLabel = new JLabel("Description Panel");
         descriptionLabel.setFont(new Font("Arial",Font.PLAIN,25));
@@ -23,6 +23,7 @@ public class AboutPanel extends JPanel implements ActionListener {
         initializeButtons();
     }
 
+    //Methods
     private void initializeButtons(){
         okButton = new JButton("OK");
         okButton.setAlignmentX(Component.CENTER_ALIGNMENT);

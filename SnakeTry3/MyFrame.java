@@ -8,35 +8,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MyFrame extends JFrame implements ActionListener {
-    //private JPanel upPanel;
     private MyUpPanel upPanel;
-    private JLabel speedLabel;
-    private JLabel scoreLabel;
-
     private JPanel downPanel;
     private JButton returnButton;
     private JButton pauseButton;
     private final String PAUSE_BUTTON_TEXT = "Pause";
     private JButton saveButton;
     private boolean areButtonsVisible=true;
-
     private JPanel leftPanel ;
     private JPanel rightPanel;
     private JPanel centerPanel;
     private final int PANEL_SIZE =30;
     private final int GAP_IN_BORDER_LAYOUT_SIZE =10;
-
     private Main main;
 
-    public void setMain(Main main) {
-        this.main = main;
-        upPanel.setMain(main);
-    }
-
-    public JPanel getUpPanel() {
-        return upPanel;
-    }
-
+    //Constructor
     public MyFrame() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Snake by Daniel");
@@ -44,9 +30,9 @@ public class MyFrame extends JFrame implements ActionListener {
         this.getContentPane().setBackground(Color.BLACK);
         initializePanels();
         this.setVisible(true);
-
     }
 
+    //Methods
     private void initializePanels(){
         upPanel = new MyUpPanel();
         //initializeUpPanel();
@@ -116,10 +102,6 @@ public class MyFrame extends JFrame implements ActionListener {
         saveButton.setVisible(false);
     }
 
-    public JPanel getCenterPanel() {
-        return centerPanel;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==returnButton){
@@ -152,5 +134,17 @@ public class MyFrame extends JFrame implements ActionListener {
         pauseButton.setText(PAUSE_BUTTON_TEXT);
     }
 
+    //Getters and Setters
+    public void setMain(Main main) {
+        this.main = main;
+        upPanel.setMain(main);
+    }
 
+    public JPanel getUpPanel() {
+        return upPanel;
+    }
+
+    public JPanel getCenterPanel() {
+        return centerPanel;
+    }
 }

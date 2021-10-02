@@ -10,10 +10,7 @@ public class MyUpPanel extends JPanel {
     private int speed;
     private int score;
 
-    public void setMain(Main main) {
-        this.main = main;
-    }
-
+    //Constructor
     public MyUpPanel() {
         speed=0;
         score=0;
@@ -38,19 +35,13 @@ public class MyUpPanel extends JPanel {
         this.add(scoreLabel);
     }
 
-    public void ableUpPanelsVisibility() {
-        speedLabel.setVisible(true);
-        scoreLabel.setVisible(true);
-    }
-
+    //Methods
     private void updateCounters(){
         speed=main.getSpeed();
         speedLabel.setText("Speed: " + speed);
 
         score=main.getScore();
         scoreLabel.setText("Score: " + score);
-
-
     }
 
     @Override
@@ -59,8 +50,18 @@ public class MyUpPanel extends JPanel {
         if (main!=null) updateCounters();
     }
 
+    public void ableUpPanelsVisibility() {
+        speedLabel.setVisible(true);
+        scoreLabel.setVisible(true);
+    }
+
     public void disableUpPanelsVisibility() {
         speedLabel.setVisible(false);
         scoreLabel.setVisible(false);
+    }
+
+    //Getters and Setters
+    public void setMain(Main main) {
+        this.main = main;
     }
 }
