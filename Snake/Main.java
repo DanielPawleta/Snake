@@ -1,9 +1,10 @@
-package SnakeTry3;
+package Snake;
 
-import SnakeTry3.Exceptions.IllegalCharacterException;
-import SnakeTry3.Exceptions.NameTooLongException;
-import SnakeTry3.Exceptions.SizeTooBigException;
-import SnakeTry3.Exceptions.SizeTooSmallException;
+import Snake.Exceptions.IllegalCharacterException;
+import Snake.Exceptions.NameTooLongException;
+import Snake.Exceptions.SizeTooBigException;
+import Snake.Exceptions.SizeTooSmallException;
+import Snake.View.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -120,6 +121,7 @@ public class Main {
         this.game = game;
         this.speed = game.getSpeed();
         this.score = game.getScore();
+
         keyboardObserver = new KeyboardObserver();
         keyboardObserver.setContainer(frame);
         keyboardObserver.run();

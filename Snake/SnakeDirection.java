@@ -1,4 +1,4 @@
-package SnakeTry3;
+package Snake;
 
 public enum SnakeDirection {
     UP,

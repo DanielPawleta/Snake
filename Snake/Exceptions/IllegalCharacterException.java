@@ -1,4 +1,4 @@
-package SnakeTry3.Exceptions;
+package Snake.Exceptions;
 
 public class IllegalCharacterException extends Exception{
 }

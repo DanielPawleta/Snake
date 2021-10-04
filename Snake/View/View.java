@@ -1,5 +1,9 @@
-package SnakeTry3;
+package Snake.View;
 
+
+import Snake.Mouse;
+import Snake.Snake;
+import Snake.SnakeSection;
 
 import javax.swing.*;
 import java.awt.*;

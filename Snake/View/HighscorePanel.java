@@ -1,13 +1,13 @@
-package SnakeTry3;
+package Snake.View;
+
+import Snake.Highscore;
+import Snake.Highscores;
+import Snake.Main;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.ObjectStreamException;
-import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.Collections;
 

@@ -1,4 +1,6 @@
-package SnakeTry3;
+package Snake;
+
+import Snake.View.View;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,7 +37,9 @@ public class Game implements ActionListener, Serializable {
 
     //Methods
     public void run() {
-        timer = new Timer(300,this);
+        int delay=300;
+        if (speed!=0) delay=delay-speed*10;
+        timer = new Timer(delay,this);
         timer.start();
     }
 

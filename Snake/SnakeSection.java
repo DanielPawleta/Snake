@@ -1,4 +1,4 @@
-package SnakeTry3;
+package Snake;
 
 import java.io.Serializable;
 

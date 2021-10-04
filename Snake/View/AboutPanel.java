@@ -1,4 +1,6 @@
-package SnakeTry3;
+package Snake.View;
+
+import Snake.Main;
 
 import javax.swing.*;
 import java.awt.*;
