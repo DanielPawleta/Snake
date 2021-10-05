@@ -1,5 +1,5 @@
 # Snake
-SnakeV1 is my project created to get some knowledge and experience using Swing to create GUI, my version of this popular game includes:
+Snake is my project created to get some knowledge and experience using Swing to create GUI, my version of this popular game includes:
 
 pausing and resuming the game, 
 
