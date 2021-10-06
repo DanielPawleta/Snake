@@ -9,4 +9,4 @@ saving best scores to file,
 
 choosing prefered game field size. 
 
-In the future I would like to add some more functionality like choosing prefered color-style for game obects, add possibility to add obstacles on game filed or implement turbo-mode while holding space-key
+In the future I would like to add some more functionality like choosing prefered color-style for game obects, add possibility to add obstacles on game filed or implement turbo-mode while holding space-key. Additionally I'd like to implement language select option based on Properties.
